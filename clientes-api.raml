@@ -1,0 +1,73 @@
+#%RAML 1.0
+title: clientes-api
+version: v1
+mediaType: application/json
+
+types:
+  Cliente:
+    properties:
+      codigo:
+        required: false
+        type: number
+      nome:
+        type: string
+      email:
+        type: string
+        pattern: ^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$
+    example:
+      codigo: 1
+      nome: Cliente 01
+      email: cliente01@email.com.br
+  Mensagem:
+    properties:
+      mensagem: 
+        type: string
+
+/clientes: 
+  get:
+    queryParameters:       
+      nome:                
+        required: false
+        type: string
+    responses:         
+      200:               
+        body:
+          type: Cliente[]  
+      500:          
+        body:
+          type: Mensagem
+          example:
+            mensagem: Ocorreu um erro inesperado 
+  post:
+    body:             
+      type: Cliente
+    responses:
+      201:            
+        body:
+          type: Mensagem  
+          example: 
+            mensagem: Operação realizada com sucesso   
+      400:           
+        body:
+          type: Mensagem
+          example:
+            mensagem: "Cliente inválido"
+               
+  /{id}:
+    put:
+      body:
+          type: Cliente
+      responses:
+        200:
+          body:
+            type: Mensagem
+            example:
+              mensagem: Operação realizada com sucesso    
+    delete:
+      responses:
+        200:   
+          body:
+            type: Mensagem
+            example:
+              mensagem: Operação realizada com sucesso       
+ 
